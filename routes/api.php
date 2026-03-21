@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\ReservationController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
@@ -18,4 +19,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/destroy', [ProduitController::class, 'destroy']);
     Route::get('/categories', [CategorieController::class, 'index']);
     Route::post('/store', [CategorieController::class, 'store']);
+
+    Route::get('/reservation', [ReservationController::class, 'index']);
+    Route::post('/reserver', [ReservationController::class, 'store']);
 });
