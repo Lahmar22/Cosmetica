@@ -12,7 +12,7 @@ class CreateProduitRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth('api')->check() && auth('api')->user()->role === 'admin';
     }
 
     /**
@@ -22,10 +22,10 @@ class CreateProduitRequest extends FormRequest
      */
     public function rules(): array
     {
-         return [
+        return [
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:1000',
-            'prix' => 'required|string|max:255',
+            'prix' => 'required',
             'images' => 'required|string|max:255',
             'categorie_id' => 'required|integer|exists:categories,id',
         ];
