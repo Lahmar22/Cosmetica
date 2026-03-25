@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Produit;
 
 class Reservation extends Model
 {
@@ -13,4 +14,9 @@ class Reservation extends Model
         'produit_id',
         'client_id',
     ];
+
+    public function produit()
+    {
+        return $this->belongsTo(Produit::class);
+    }
 }
