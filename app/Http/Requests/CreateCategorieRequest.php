@@ -12,7 +12,7 @@ class CreateCategorieRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth('api')->check() && auth('api')->user()->role === 'admin';
     }
 
     /**
