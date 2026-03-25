@@ -7,14 +7,23 @@ use App\models\Reservation;
 use App\models\Produit;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Requests\ReservationRequest;
+use App\Http\Requests\updateStatusRequest;
 
 class ReservationController extends Controller
 {
     public function index(){
-        $reservation = Reservation::all();
+        $reservation = Reservation::where('client_id', auth('api')->id())->get();
 
         return response()->json([
             'reservation' => $reservation
+        ]);
+    }
+
+    public function reservations(){
+        $reservation = Reservation::with('produit')->get();
+
+        return response()->json([
+            'reservations' => $reservation
         ]);
     }
 
@@ -33,6 +42,26 @@ class ReservationController extends Controller
         return response()->json([
             'message' => 'reservation succees',
             'reservation' => $resevation
+        ]);
+    }
+
+    public function valide(updateStatusRequest $request, Reservation $reservation){
+        $reservation->statuts = $request->statuts;
+        $reservation->save();
+
+        return response()->json([
+            'message' => 'statuts update succes',
+            'reservation' => $reservation
+        ]);
+
+    }
+
+    public function annuler(Reservation $reservation){
+
+        $reservation->delete();
+
+        return response()->json([
+            "message" => "annuler reservation successfully"
         ]);
     }
 }
